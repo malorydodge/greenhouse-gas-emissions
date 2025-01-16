@@ -1,14 +1,15 @@
 # greenhouse-gas-emissions
 
-This template should help get you started developing with Vue 3 in Vite.
+A Vue.js web application built to visualize greenhouse gas emissions data for USA, Japan, China, India, France and Brazil to allow for comparison and analysis. This app allows filtering the data displayed in the interactive charts and responsive table by year and country.
 
-## Recommended IDE Setup
+# Technologies used
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Frontend Framework: Vue.js (v3)
+- Charts: Chart.js via vue-chartjs
+- UI Components: Bootstrap.vue
+- Data Source: World Bank API
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
+A Vue.js web application built to vis
 
 ## Project Setup
 
