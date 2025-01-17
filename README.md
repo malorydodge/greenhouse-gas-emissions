@@ -1,6 +1,6 @@
 # greenhouse-gas-emissions
 
-A Vue.js web application built to visualize greenhouse gas emissions data for USA, Japan, China, India, France and Brazil to allow for comparison and analysis. This app allows filtering the data displayed in the interactive charts and responsive table by year and country.
+A Vue.js web application that visualizes greenhouse gas emissions data for USA, Japan, China, India, France and Brazil to allow for comparison and analysis. This app displays data in the interactive charts and responsive table and allows filtering by year and country.
 
 # Technologies used
 
