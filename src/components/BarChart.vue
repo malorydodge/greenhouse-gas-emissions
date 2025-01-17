@@ -1,7 +1,57 @@
 <template lang="">
-  <div></div>
+  <div>
+    <Bar :data="data" />
+  </div>
 </template>
 <script>
-export default {}
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from 'chart.js'
+import { Bar } from 'vue-chartjs'
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+export default {
+  name: 'BarChart',
+  components: {
+    Bar,
+  },
+  props: {
+    data: Array,
+    filters: Object,
+  },
+  data() {
+    return {
+      data: {
+        labels: [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ],
+        datasets: [
+          {
+            label: 'Data One',
+            backgroundColor: '#f87979',
+            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11],
+          },
+        ],
+      },
+    }
+  },
+  created() {},
+}
 </script>
 <style lang=""></style>

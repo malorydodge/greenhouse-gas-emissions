@@ -9,8 +9,6 @@ A Vue.js web application built to visualize greenhouse gas emissions data for US
 - UI Components: Bootstrap.vue
 - Data Source: World Bank API
 
-A Vue.js web application built to vis
-
 ## Project Setup
 
 ```sh

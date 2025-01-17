@@ -1,12 +1,16 @@
 <template>
-  <div>
+  <div id="app">
     <b-card no-body>
+      <OverviewStatistics />
+      <Filters />
       <b-tabs card>
         <b-tab title="Table" active>
-          <b-card-text><b-table striped hover :items="items"></b-table></b-card-text>
+          <DataTable :data="data" :selectedFilters="selectedFilters" />
         </b-tab>
-        <b-tab title="Graph" active>
-          <Line :data="data" />
+        <b-tab title="Graphs" active>
+          <LineChart :data="data" :filters="selectedFilters" />
+          <BarChart :data="data" :selectedFilters="selectedFilters" />
+          <PieChart />
         </b-tab>
       </b-tabs>
     </b-card>
@@ -14,44 +18,45 @@
 </template>
 
 <script>
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js'
-import { Line } from 'vue-chartjs'
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
+import LineChart from './components/LineChart.vue'
+import DataTable from './components/DataTable.vue'
+import BarChart from './components/BarChart.vue'
+import PieChart from './components/PieChart.vue'
+import Filters from './components/Filters.vue'
+import OverviewStatistics from './components/OverviewStatistics.vue'
 export default {
   name: 'App',
   components: {
-    Line,
+    LineChart,
+    DataTable,
+    BarChart,
+    PieChart,
+    Filters,
+    OverviewStatistics,
   },
   data() {
     return {
-      items: [
-        { age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-        { age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-        { age: 89, first_name: 'Geneva', last_name: 'Wilson' },
-        { age: 38, first_name: 'Jami', last_name: 'Carney' },
-      ],
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-          {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [40, 39, 10, 40, 39, 80, 40],
-          },
-        ],
+      data: [],
+      selectedFilters: {
+        years: [],
+        countries: [],
       },
     }
   },
   created() {},
+  computed: {
+    filteredData() {
+      return this.data
+    },
+  },
+  methods: {
+    updateYearFilter(selectedYears) {
+      this.selectedFilters.years = selectedYears
+    },
+    updateCountryFilter(selectedCountries) {
+      this.selectedFilters.countries = selectedCountries
+    },
+  },
 }
 </script>
 

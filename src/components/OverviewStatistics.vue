@@ -1,7 +1,9 @@
 <template lang="">
-  <div></div>
+  <div>stats</div>
 </template>
 <script>
-export default {}
+export default {
+  name: 'OverviewStatistics',
+}
 </script>
 <style lang=""></style>
