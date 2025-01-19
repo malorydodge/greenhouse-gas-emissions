@@ -2,7 +2,7 @@
   <div id="app">
     <b-card no-body>
       <OverviewStatistics />
-      <Filters />
+      <Filters @yearFilterUpdated="updateYearFilter" @countryFilterUpdated="updateCountryFilter" />
       <b-tabs card>
         <b-tab title="Table" active>
           <DataTable :data="data" :selectedFilters="selectedFilters" />
