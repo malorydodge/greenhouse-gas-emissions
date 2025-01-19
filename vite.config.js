@@ -6,6 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default {
+  base: '/greenhouse-gas-emissions/',
   resolve: {
     alias: {
       vue: '@vue/compat',
