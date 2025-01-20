@@ -6,7 +6,6 @@ import DataTable from './components/DataTable.vue'
 import LineChart from './components/LineChart.vue'
 import BarChart from './components/BarChart.vue'
 import PieChart from './components/PieChart.vue'
-import Filters from './components/Filters.vue'
 import { BootstrapVue } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 
@@ -35,5 +34,4 @@ app.component('DataTable', DataTable)
 app.component('LineChart', LineChart)
 app.component('BarChart', BarChart)
 app.component('PieChart', PieChart)
-app.component('Filters', Filters)
 app.mount('#app')

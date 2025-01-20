@@ -32,6 +32,7 @@ export default {
   },
   computed: {
     formattedData() {
+      // Format data for chartjs requirements
       let formattedData = {
         labels: this.filters.countries,
         datasets: [
@@ -41,7 +42,6 @@ export default {
           },
         ],
       }
-      console.log(formattedData)
       return formattedData
     },
   },
