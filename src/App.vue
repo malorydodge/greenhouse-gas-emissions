@@ -157,6 +157,7 @@ export default {
       }
     },
     toggleAllYears(checkedYears) {
+      this.allYearsSelected = checkedYears
       // Set selected years to all years
       this.selectedFilters.years = checkedYears
         ? // Extract values from options array
@@ -164,6 +165,7 @@ export default {
         : []
     },
     toggleAllCountries(checkedCountries) {
+      this.allCountriesSelected = checkedCountries
       // Set selected countries to all countries
       this.selectedFilters.countries = checkedCountries
         ? // Extract values from options array
