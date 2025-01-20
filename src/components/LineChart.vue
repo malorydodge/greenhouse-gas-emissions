@@ -33,8 +33,9 @@ export default {
   computed: {
     formattedData() {
       // Format data for chartjs requirements
+      let years = this.filters.years
       let formattedData = {
-        labels: this.filters.years.sort((a, b) => a - b),
+        labels: years.sort((a, b) => a - b),
         datasets: [],
       }
       for (let country in this.filters.countries) {

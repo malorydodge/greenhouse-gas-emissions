@@ -95,8 +95,6 @@ export default {
       data: [],
       tableData: [],
       isLoading: true,
-      allCountriesSelected: true,
-      allYearsSelected: true,
       // The following fields have hard-coded default values due to formatting requirements
       yearOptions: Array.from({ length: 50 }, (_, i) => `${2024 - i}`),
       countryOptions: [
@@ -116,6 +114,12 @@ export default {
   computed: {
     checkFilters() {
       return this.selectedFilters?.years?.length > 0 && this.selectedFilters?.countries?.length > 0
+    },
+    allCountriesSelected() {
+      return this.selectedFilters?.countries?.length === this.countryOptions.length
+    },
+    allYearsSelected() {
+      return this.selectedFilters?.years?.length === this.yearOptions.length
     },
   },
   async created() {
@@ -157,7 +161,6 @@ export default {
       }
     },
     toggleAllYears(checkedYears) {
-      this.allYearsSelected = checkedYears
       // Set selected years to all years
       this.selectedFilters.years = checkedYears
         ? // Extract values from options array
@@ -165,7 +168,6 @@ export default {
         : []
     },
     toggleAllCountries(checkedCountries) {
-      this.allCountriesSelected = checkedCountries
       // Set selected countries to all countries
       this.selectedFilters.countries = checkedCountries
         ? // Extract values from options array
