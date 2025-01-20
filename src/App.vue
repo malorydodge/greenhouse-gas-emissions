@@ -1,9 +1,13 @@
 <template>
   <div id="app">
     <b-card no-body>
-      <OverviewStatistics />
       <Filters @yearFilterUpdated="updateYearFilter" @countryFilterUpdated="updateCountryFilter" />
-      <b-tabs card>
+
+      <div v-if="!checkFilters">
+        Please select at least one year and one country to display data
+      </div>
+      <b-tabs v-else card>
+        <OverviewStatistics />
         <b-tab title="Graphs" active>
           <div v-if="!isLoading">
             <LineChart :data="data" :filters="selectedFilters" />
@@ -48,6 +52,13 @@ export default {
         countries: [],
       },
     }
+  },
+  computed: {
+    checkFilters() {
+      console.log(this.selectedFilters['years'])
+
+      return this.selectedFilters.years.length > 0 && this.selectedFilters?.countries?.length > 0
+    },
   },
   async created() {
     await this.getEmissionsData()
