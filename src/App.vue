@@ -16,12 +16,13 @@
               {{ allCountriesSelected ? 'Un-select All' : 'Select All' }}
             </b-form-checkbox>
             <b-form-checkbox-group
-              v-model="selectedFilters.countries"
+              v-model="selectedCountries"
               :options="countryOptions"
               class="mb-3"
               value-field="value"
               text-field="label"
               disabled-field="notEnabled"
+              @change="getEmissionsData"
             ></b-form-checkbox-group>
           </b-dropdown>
           <b-dropdown
@@ -34,10 +35,11 @@
               {{ allYearsSelected ? 'Un-select All' : 'Select All' }}
             </b-form-checkbox>
             <b-form-checkbox-group
-              v-model="selectedFilters.years"
+              v-model="selectedYears"
               :options="yearOptions"
               class="mb-3"
               disabled-field="notEnabled"
+              @change="getEmissionsData"
             ></b-form-checkbox-group>
           </b-dropdown>
         </div>
@@ -99,10 +101,8 @@ export default {
         { label: 'France', value: 'FRA' },
         { label: 'Brazil', value: 'BRA' },
       ],
-      selectedFilters: {
-        years: Array.from({ length: 50 }, (_, i) => `${2024 - i}`),
-        countries: ['USA', 'JPN', 'CHN', 'IND', 'FRA', 'BRA'],
-      },
+      selectedYears: Array.from({ length: 50 }, (_, i) => `${2024 - i}`),
+      selectedCountries: ['USA', 'JPN', 'CHN', 'IND', 'FRA', 'BRA'],
     }
   },
   computed: {
@@ -115,6 +115,12 @@ export default {
     allYearsSelected() {
       return this.selectedFilters?.years?.length === this.yearOptions.length
     },
+    selectedFilters() {
+      return {
+        countries: this.selectedCountries,
+        years: this.selectedYears,
+      }
+    },
   },
   async created() {
     await this.getEmissionsData()
@@ -126,8 +132,8 @@ export default {
         // Clear current data
         this.data = []
         // Loop through all of currently selected countries
-        for (let countryIndex in this.selectedFilters.countries) {
-          let countryCode = this.selectedFilters.countries[countryIndex]
+        for (let countryIndex in this.selectedCountries) {
+          let countryCode = this.selectedCountries[countryIndex]
           // Call worldbank api
           const res = await axios
             .get(
@@ -141,7 +147,7 @@ export default {
               for (let recordIndex in responseData) {
                 record = responseData[recordIndex]
                 // Only add the record if the year is selected
-                if (this.selectedFilters.years.indexOf(record.date) > -1) {
+                if (this.selectedYears.indexOf(record.date) > -1) {
                   filteredResponse.push(record)
                 }
               }
@@ -156,19 +162,23 @@ export default {
     },
     toggleAllYears(checkedYears) {
       // Set selected years to all years
-      this.selectedFilters.years = checkedYears ? this.yearOptions : []
+      this.selectedYears = checkedYears ? this.yearOptions : []
     },
     toggleAllCountries(checkedCountries) {
       // Set selected countries to all countries
-      this.selectedFilters.countries = checkedCountries
+      this.selectedCountries = checkedCountries
         ? // Extract values from options array
           Array.from(this.countryOptions, (option) => option.value)
         : []
     },
     watch: {
-      async selectedFilters() {
+      selectedYears(newValue, oldValue) {
         // Trigger api call to refresh data on filter change
-        await this.getEmissionsData()
+        this.getEmissionsData()
+      },
+      selectedCountries(newValue, oldValue) {
+        // Trigger api call to refresh data on filter change
+        this.getEmissionsData()
       },
     },
   },
