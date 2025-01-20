@@ -1,7 +1,12 @@
 <template>
   <div>
-    <div>
-      <b-dropdown id="country-filter" text="Countries" class="filters">
+    <div class="bg-white p-2 text-gray-400">
+      <b-dropdown
+        variant="outline-primary"
+        id="country-filter"
+        text="Countries"
+        class="mt-4 p-2 filters"
+      >
         <b-form-checkbox v-model="allCountriesSelected" @change="toggleAllCountries">
           {{ allCountriesSelected ? 'Un-select All' : 'Select All' }}
         </b-form-checkbox>
@@ -14,7 +19,7 @@
           disabled-field="notEnabled"
         ></b-form-checkbox-group>
       </b-dropdown>
-      <b-dropdown id="year-filter" text="Years" class="filters">
+      <b-dropdown variant="outline-primary" id="year-filter" text="Years" class="mt-4 p-2 filters">
         <b-form-checkbox v-model="allYearsSelected" @change="toggleAllYears">
           {{ allYearsSelected ? 'Un-select All' : 'Select All' }}
         </b-form-checkbox>

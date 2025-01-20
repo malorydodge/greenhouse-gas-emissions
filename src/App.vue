@@ -7,12 +7,13 @@
         Please select at least one year and one country to display data
       </div>
       <b-tabs v-else card>
-        <OverviewStatistics />
         <b-tab title="Graphs" active>
           <div v-if="!isLoading">
             <LineChart :data="data" :filters="selectedFilters" />
-            <BarChart :data="data" :filters="selectedFilters" />
-            <PieChart :data="data" :filters="selectedFilters" />
+            <div class="flex p-4">
+              <BarChart :data="data" :filters="selectedFilters" />
+              <PieChart :data="data" :filters="selectedFilters" />
+            </div>
           </div>
           <b-spinner v-else variant="success"></b-spinner>
         </b-tab>
@@ -31,7 +32,6 @@ import DataTable from './components/DataTable.vue'
 import BarChart from './components/BarChart.vue'
 import PieChart from './components/PieChart.vue'
 import Filters from './components/Filters.vue'
-import OverviewStatistics from './components/OverviewStatistics.vue'
 import axios from 'axios'
 export default {
   name: 'App',
@@ -41,7 +41,6 @@ export default {
     BarChart,
     PieChart,
     Filters,
-    OverviewStatistics,
   },
   data() {
     return {

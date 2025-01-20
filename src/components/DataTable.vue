@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <div>
     <b-card-text><b-table striped hover :items="data"></b-table></b-card-text>
   </div>
@@ -13,4 +13,4 @@ export default {
   },
 }
 </script>
-<style lang=""></style>
+<style></style>
