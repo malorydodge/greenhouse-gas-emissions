@@ -4,16 +4,16 @@
       <OverviewStatistics />
       <Filters @yearFilterUpdated="updateYearFilter" @countryFilterUpdated="updateCountryFilter" />
       <b-tabs card>
-        <b-tab title="Table" active>
-          <DataTable v-if="!isLoading" :data="data" :selectedFilters="selectedFilters" />
-          <b-spinner v-else variant="success"></b-spinner>
-        </b-tab>
         <b-tab title="Graphs" active>
           <div v-if="!isLoading">
             <LineChart :data="data" :filters="selectedFilters" />
-            <!-- <BarChart :data="data" :selectedFilters="selectedFilters" />
-            <PieChart /> -->
+            <BarChart :data="data" :filters="selectedFilters" />
+            <PieChart :data="data" :filters="selectedFilters" />
           </div>
+          <b-spinner v-else variant="success"></b-spinner>
+        </b-tab>
+        <b-tab title="Table">
+          <DataTable v-if="!isLoading" :data="data" :selectedFilters="selectedFilters" />
           <b-spinner v-else variant="success"></b-spinner>
         </b-tab>
       </b-tabs>

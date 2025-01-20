@@ -1,12 +1,6 @@
 <template lang="">
   <div>
-    <Pie
-      :data="data"
-      :options="{
-        responsive: true,
-        maintainAspectRatio: false,
-      }"
-    />
+    <Pie :data="formattedData" :options="options" />
   </div>
 </template>
 <script>
@@ -18,22 +12,49 @@ export default {
   components: {
     Pie,
   },
-  // props: {
-  //   data: Array,
-  //   filters: Object,
-  // },
+  props: {
+    data: Array,
+    filters: Object,
+  },
   data() {
     return {
-      data: {
-        labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
-        datasets: [
-          {
-            backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-            data: [40, 20, 80, 10],
-          },
-        ],
+      options: {
+        responsive: true,
+        parsing: {
+          xAxisKey: 'country',
+          yAxisKey: 'value',
+        },
       },
     }
+  },
+  computed: {
+    formattedData() {
+      let formattedData = {
+        labels: this.filters.countries,
+        datasets: [
+          {
+            backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16', '#094342', '#567321'],
+            data: this.getTotalEmissions(),
+          },
+        ],
+      }
+      console.log(formattedData)
+      return formattedData
+    },
+  },
+  methods: {
+    getTotalEmissions() {
+      let totals = []
+      for (let countryIndex in this.filters.countries) {
+        let countryCode = this.filters.countries[countryIndex]
+        let total = 0
+        for (let index in this.data[countryCode]) {
+          total += this.data[countryCode][index].value
+        }
+        totals.push({ country: countryCode, value: total })
+      }
+      return totals
+    },
   },
 }
 </script>

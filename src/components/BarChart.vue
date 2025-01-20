@@ -1,6 +1,6 @@
 <template lang="">
   <div>
-    <Bar :data="data" />
+    <Bar :data="formattedData" :options="options" />
   </div>
 </template>
 <script>
@@ -26,32 +26,32 @@ export default {
   },
   data() {
     return {
-      data: {
-        labels: [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-          'August',
-          'September',
-          'October',
-          'November',
-          'December',
-        ],
-        datasets: [
-          {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11],
-          },
-        ],
+      options: {
+        responsive: true,
+        parsing: {
+          xAxisKey: 'date',
+          yAxisKey: 'value',
+        },
       },
     }
   },
-  created() {},
+  computed: {
+    formattedData() {
+      let formattedData = {
+        labels: this.filters.years.sort((a, b) => a - b),
+        datasets: [],
+      }
+      for (let country in this.filters.countries) {
+        let countryCode = this.filters.countries[country]
+        formattedData.datasets.push({
+          label: countryCode,
+          backgroundColor: '#' + Math.floor(country * 999).toString(16),
+          data: this.data[countryCode],
+        })
+      }
+      return formattedData
+    },
+  },
 }
 </script>
 <style lang=""></style>
