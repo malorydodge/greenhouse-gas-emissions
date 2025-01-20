@@ -10,6 +10,7 @@ import Filters from './components/Filters.vue'
 import OverviewStatistics from './components/OverviewStatistics.vue'
 import { BootstrapVue } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
+import './index.css'
 
 configureCompat({
   WATCH_ARRAY: 'suppress-warning',
