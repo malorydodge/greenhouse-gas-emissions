@@ -62,12 +62,7 @@
           <b-spinner v-else variant="success"></b-spinner>
         </b-tab>
         <b-tab title="Table">
-          <DataTable
-            v-if="!isLoading"
-            :data="tableData"
-            :selectedFilters="selectedFilters"
-            :perPage="20"
-          />
+          <DataTable v-if="!isLoading" :data="tableData" :selectedFilters="selectedFilters" />
           <b-spinner v-else variant="success"></b-spinner>
         </b-tab>
       </b-tabs>
@@ -81,7 +76,6 @@ import DataTable from './components/DataTable.vue'
 import BarChart from './components/BarChart.vue'
 import PieChart from './components/PieChart.vue'
 import axios from 'axios'
-import { watch } from 'vue'
 export default {
   name: 'App',
   components: {
@@ -162,10 +156,7 @@ export default {
     },
     toggleAllYears(checkedYears) {
       // Set selected years to all years
-      this.selectedFilters.years = checkedYears
-        ? // Extract values from options array
-          this.yearOptions
-        : []
+      this.selectedFilters.years = checkedYears ? this.yearOptions : []
     },
     toggleAllCountries(checkedCountries) {
       // Set selected countries to all countries
@@ -175,8 +166,8 @@ export default {
         : []
     },
     watch: {
-      // Trigger api call to refresh data on filter change
       async selectedFilters() {
+        // Trigger api call to refresh data on filter change
         await this.getEmissionsData()
       },
     },

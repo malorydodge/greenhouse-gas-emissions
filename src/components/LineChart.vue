@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3 class="text-lg font-bold text-gray-900 sm:truncate sm:tracking-tight">
-      Greenhouse Gas Emissions by Year
+      Greenhouse Gas Emissions by Year (kilotons)
     </h3>
     <Line :data="formattedData" :options="options" />
   </div>
