@@ -1,6 +1,6 @@
 <template>
   <div class="w-2/6">
-    <h3 class="text-2xl/7 font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+    <h3 class="text-lg font-bold text-gray-900 sm:truncate sm:tracking-tight">
       Total Emissions Per Country
     </h3>
     <Pie :data="formattedData" :options="options" />

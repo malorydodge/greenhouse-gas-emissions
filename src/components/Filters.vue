@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-center">
     <div class="bg-white p-2 text-gray-400">
       <b-dropdown
         variant="outline-primary"

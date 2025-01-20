@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="text-2xl/7 font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+    <h3 class="text-lg font-bold text-gray-900 sm:truncate sm:tracking-tight">
       Greenhouse Gas Emissions by Year
     </h3>
     <Line :data="formattedData" :options="options" />

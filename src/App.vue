@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <h3 class="text-center text-2xl font-bold text-gray-900 sm:truncate sm:tracking-tight">
+      Greenhouse Gas Emissions
+    </h3>
     <b-card no-body>
       <Filters @yearFilterUpdated="updateYearFilter" @countryFilterUpdated="updateCountryFilter" />
 
@@ -9,7 +12,9 @@
       <b-tabs v-else card>
         <b-tab title="Graphs" active>
           <div v-if="!isLoading">
-            <LineChart :data="data" :filters="selectedFilters" />
+            <div class="p-4">
+              <LineChart :data="data" :filters="selectedFilters" />
+            </div>
             <div class="flex p-4">
               <BarChart :data="data" :filters="selectedFilters" />
               <PieChart :data="data" :filters="selectedFilters" />
