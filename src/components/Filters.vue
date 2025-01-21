@@ -19,17 +19,14 @@
           disabled-field="notEnabled"
         ></b-form-checkbox-group>
       </b-dropdown>
-      <b-dropdown variant="outline-primary" id="year-filter" text="Years" class="mt-4 p-2 filters">
-        <b-form-checkbox v-model="allYearsSelected" @change="toggleAllYears">
-          {{ allYearsSelected ? 'Un-select All' : 'Select All' }}
-        </b-form-checkbox>
-        <b-form-checkbox-group
-          v-model="selectedYears"
-          :options="yearOptions"
-          class="mb-3"
-          disabled-field="notEnabled"
-        ></b-form-checkbox-group>
-      </b-dropdown>
+      <div class="p-2">Select a single year or click and drag to highlight a group of years</div>
+      <b-form-select
+        v-model="selectedYears"
+        :options="yearOptions"
+        multiple
+        :select-size="50"
+        class="year-select"
+      ></b-form-select>
     </div>
   </div>
 </template>
@@ -40,7 +37,6 @@ export default {
   data() {
     return {
       allCountriesSelected: true,
-      allYearsSelected: true,
       selectedCountries: [],
       selectedYears: [],
       yearOptions: Array.from({ length: 50 }, (_, i) => `${2024 - i}`),
@@ -63,10 +59,6 @@ export default {
     ...mapGetters(['selectedFilters']),
   },
   methods: {
-    toggleAllYears(checkedYears) {
-      ;(this.selectedYears = checkedYears ? this.yearOptions : []),
-        this.setYearFilter(this.selectedYears)
-    },
     toggleAllCountries(checkedCountries) {
       ;(this.selectedCountries = checkedCountries
         ? Array.from(this.countryOptions, (option) => option.value)
@@ -77,16 +69,8 @@ export default {
   },
   watch: {
     selectedYears(newValue, oldValue) {
-      // When individual year checkbox values change
-      if (!newValue || newValue.length === 0) {
-        this.allYearsSelected = false
-      } else if (newValue.length === this.yearOptions.length) {
-        this.allYearsSelected = true
-      } else {
-        this.allYearsSelected = false
-      }
       this.setYearFilter(newValue)
-      this.$emit('yearFilterUpdated', newValue)
+      this.$emit('filterUpdated', newValue)
     },
     selectedCountries(newValue, oldValue) {
       // When individual country checkbox values change
@@ -98,7 +82,7 @@ export default {
         this.allCountriesSelected = false
       }
       this.setCountryFilter(newValue)
-      this.$emit('countryFilterUpdated', newValue)
+      this.$emit('filterUpdated', newValue)
     },
   },
 }
@@ -107,5 +91,8 @@ export default {
 .filters .dropdown-menu {
   max-height: 200px;
   overflow-y: auto;
+}
+.year-select {
+  max-height: 100px;
 }
 </style>
