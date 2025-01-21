@@ -4,47 +4,7 @@
       Greenhouse Gas Emissions
     </h3>
     <b-card no-body>
-      <div class="text-center">
-        <div class="bg-white p-2 text-gray-400">
-          <b-dropdown
-            variant="outline-primary"
-            id="country-filter"
-            text="Countries"
-            class="mt-4 p-2 filters"
-          >
-            <b-form-checkbox :checked="allCountriesSelected" @change="toggleAllCountries">
-              {{ allCountriesSelected ? 'Un-select All' : 'Select All' }}
-            </b-form-checkbox>
-            <b-form-checkbox-group
-              v-model="selectedCountries"
-              :options="countryOptions"
-              class="mb-3"
-              value-field="value"
-              text-field="label"
-              disabled-field="notEnabled"
-              @change="getEmissionsData"
-            ></b-form-checkbox-group>
-          </b-dropdown>
-          <b-dropdown
-            variant="outline-primary"
-            id="year-filter"
-            text="Years"
-            class="mt-4 p-2 filters"
-          >
-            <b-form-checkbox :checked="allYearsSelected" @change="toggleAllYears">
-              {{ allYearsSelected ? 'Un-select All' : 'Select All' }}
-            </b-form-checkbox>
-            <b-form-checkbox-group
-              v-model="selectedYears"
-              :options="yearOptions"
-              class="mb-3"
-              disabled-field="notEnabled"
-              @change="getEmissionsData"
-            ></b-form-checkbox-group>
-          </b-dropdown>
-        </div>
-      </div>
-
+      <Filters @filterUpdated="getEmissionsData" />
       <div v-if="!checkFilters">
         <b-alert show variant="danger">
           Please select at least one year and one country to display data</b-alert
@@ -54,17 +14,17 @@
         <b-tab title="Graphs" active>
           <div v-if="!isLoading">
             <div class="p-4">
-              <LineChart :data="data" :filters="selectedFilters" />
+              <LineChart :data="data" />
             </div>
             <div class="flex p-4">
-              <BarChart :data="data" :filters="selectedFilters" />
-              <PieChart :data="data" :filters="selectedFilters" />
+              <BarChart :data="data" />
+              <PieChart :data="data" />
             </div>
           </div>
           <b-spinner v-else variant="success"></b-spinner>
         </b-tab>
         <b-tab title="Table">
-          <DataTable v-if="!isLoading" :data="tableData" :selectedFilters="selectedFilters" />
+          <DataTable v-if="!isLoading" :data="tableData" />
           <b-spinner v-else variant="success"></b-spinner>
         </b-tab>
       </b-tabs>
@@ -77,7 +37,9 @@ import LineChart from './components/LineChart.vue'
 import DataTable from './components/DataTable.vue'
 import BarChart from './components/BarChart.vue'
 import PieChart from './components/PieChart.vue'
+import Filters from './components/Filters.vue'
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 export default {
   name: 'App',
   components: {
@@ -85,42 +47,24 @@ export default {
     DataTable,
     BarChart,
     PieChart,
+    Filters,
   },
   data() {
     return {
       data: [],
       tableData: [],
       isLoading: true,
-      // The following fields have hard-coded default values due to formatting requirements
-      yearOptions: Array.from({ length: 50 }, (_, i) => `${2024 - i}`),
-      countryOptions: [
-        { label: 'United States', value: 'USA' },
-        { label: 'Japan', value: 'JPN' },
-        { label: 'China', value: 'CHN' },
-        { label: 'India', value: 'IND' },
-        { label: 'France', value: 'FRA' },
-        { label: 'Brazil', value: 'BRA' },
-      ],
-      selectedYears: Array.from({ length: 50 }, (_, i) => `${2024 - i}`),
-      selectedCountries: ['USA', 'JPN', 'CHN', 'IND', 'FRA', 'BRA'],
     }
   },
   computed: {
     checkFilters() {
       return this.selectedFilters?.years?.length > 0 && this.selectedFilters?.countries?.length > 0
     },
-    allCountriesSelected() {
-      return this.selectedFilters?.countries?.length === this.countryOptions.length
-    },
-    allYearsSelected() {
-      return this.selectedFilters?.years?.length === this.yearOptions.length
-    },
-    selectedFilters() {
-      return {
-        countries: this.selectedCountries,
-        years: this.selectedYears,
-      }
-    },
+    // mix the getters into computed with object spread operator
+    ...mapGetters([
+      'selectedFilters',
+      // ...
+    ]),
   },
   async created() {
     await this.getEmissionsData()
@@ -132,8 +76,8 @@ export default {
         // Clear current data
         this.data = []
         // Loop through all of currently selected countries
-        for (let countryIndex in this.selectedCountries) {
-          let countryCode = this.selectedCountries[countryIndex]
+        for (let countryIndex in this.selectedFilters.countries) {
+          let countryCode = this.selectedFilters.countries[countryIndex]
           // Call worldbank api
           const res = await axios
             .get(
@@ -147,7 +91,7 @@ export default {
               for (let recordIndex in responseData) {
                 record = responseData[recordIndex]
                 // Only add the record if the year is selected
-                if (this.selectedYears.indexOf(record.date) > -1) {
+                if (this.selectedFilters.years.indexOf(record.date) > -1) {
                   filteredResponse.push(record)
                 }
               }
@@ -159,27 +103,6 @@ export default {
       } catch (err) {
         console.error('Error fetching data:', err)
       }
-    },
-    toggleAllYears(checkedYears) {
-      // Set selected years to all years
-      this.selectedYears = checkedYears ? this.yearOptions : []
-    },
-    toggleAllCountries(checkedCountries) {
-      // Set selected countries to all countries
-      this.selectedCountries = checkedCountries
-        ? // Extract values from options array
-          Array.from(this.countryOptions, (option) => option.value)
-        : []
-    },
-    watch: {
-      selectedYears(newValue, oldValue) {
-        // Trigger api call to refresh data on filter change
-        this.getEmissionsData()
-      },
-      selectedCountries(newValue, oldValue) {
-        // Trigger api call to refresh data on filter change
-        this.getEmissionsData()
-      },
     },
   },
 }

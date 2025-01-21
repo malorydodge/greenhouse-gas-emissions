@@ -24,7 +24,6 @@ export default {
   components: {},
   props: {
     data: Array,
-    filters: Object,
   },
   data() {
     return {
