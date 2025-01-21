@@ -39,7 +39,7 @@ export default {
       allCountriesSelected: true,
       selectedCountries: [],
       selectedYears: [],
-      yearOptions: Array.from({ length: 50 }, (_, i) => `${2024 - i}`),
+      yearOptions: Array.from({ length: 48 }, (_, i) => `${2022 - i}`),
       countryOptions: [
         { label: 'United States', value: 'USA' },
         { label: 'Japan', value: 'JPN' },

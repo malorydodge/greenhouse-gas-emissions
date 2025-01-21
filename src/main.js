@@ -16,7 +16,7 @@ const store = createStore({
   state() {
     return {
       selectedFilters: {
-        years: Array.from({ length: 50 }, (_, i) => `${2024 - i}`),
+        years: Array.from({ length: 48 }, (_, i) => `${2022 - i}`),
         countries: ['USA', 'JPN', 'CHN', 'IND', 'FRA', 'BRA'],
       },
     }
