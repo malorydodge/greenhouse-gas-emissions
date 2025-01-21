@@ -27,8 +27,6 @@
           v-model="selectedYears"
           :options="yearOptions"
           class="mb-3"
-          value-field="value"
-          text-field="label"
           disabled-field="notEnabled"
         ></b-form-checkbox-group>
       </b-dropdown>
@@ -45,7 +43,7 @@ export default {
       allYearsSelected: true,
       selectedCountries: [],
       selectedYears: [],
-      yearOptions: [],
+      yearOptions: Array.from({ length: 50 }, (_, i) => `${2024 - i}`),
       countryOptions: [
         { label: 'United States', value: 'USA' },
         { label: 'Japan', value: 'JPN' },
@@ -57,7 +55,6 @@ export default {
     }
   },
   created() {
-    this.setYearOptions()
     this.selectedCountries = this.selectedFilters.countries
     this.selectedYears = this.selectedFilters.years
   },
@@ -66,16 +63,8 @@ export default {
     ...mapGetters(['selectedFilters']),
   },
   methods: {
-    setYearOptions() {
-      var currentYear = new Date().getFullYear()
-      for (var i = 1; i <= 50; i++) {
-        this.yearOptions.push({ label: currentYear - i, value: currentYear - i })
-      }
-    },
     toggleAllYears(checkedYears) {
-      ;(this.selectedYears = checkedYears
-        ? Array.from(this.yearOptions, (option) => option.value)
-        : []),
+      ;(this.selectedYears = checkedYears ? this.yearOptions : []),
         this.setYearFilter(this.selectedYears)
     },
     toggleAllCountries(checkedCountries) {
